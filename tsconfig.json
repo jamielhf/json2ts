@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "CommonJS",
+    "lib": ["es2015", "DOM"],
+    "esModuleInterop": true,
+    "types": ["@types/babel__traverse"],
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist"
+  },
+  "exclude": ["node_modules"]
+}
