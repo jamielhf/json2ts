@@ -1,5 +1,5 @@
 {
-  "name": "jsontots",
+  "name": "@jamielhf/jsontots",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.cjs",
