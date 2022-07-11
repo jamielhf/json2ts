@@ -8,8 +8,10 @@ let mapComment;
 /**
  * 处理对象
  * @param node
+ * @param parentNodeName 父级节点名
+ * @returns
  */
-function handleObjectExpression(node) {
+function handleObjectExpression(node, parentNodeName: string = "") {
   const arr = [];
   node.properties.forEach((itemNode: t.ObjectProperty) => {
     let nodeName;
@@ -28,16 +30,21 @@ function handleObjectExpression(node) {
           t.tsTypeAnnotation(baseTypeToTs(itemNode.value.type))
         );
       } else if (t.isArrayExpression(itemNode.value)) {
-        tsNode = handleArrayExpression(nodeName, itemNode.value);
+        const arrayNode = handleArrayExpression(nodeName, itemNode.value);
+        tsNode = t.tsPropertySignature(
+          t.identifier(nodeName),
+          t.tsTypeAnnotation(arrayNode)
+        );
       } else if (t.isObjectExpression(itemNode.value)) {
-        const upperCase = toUpperCase(nodeName);
+        console.log("nodeName", nodeName);
+        const upperCase = parentNodeName + toUpperCase(nodeName);
         tsNode = t.tsPropertySignature(
           t.identifier(nodeName),
           t.tsTypeAnnotation(t.tsTypeReference(t.identifier(upperCase)))
         );
 
         // 继续遍历obj
-        const nArr = handleObjectExpression(itemNode.value);
+        const nArr = handleObjectExpression(itemNode.value, upperCase);
         const objNode = t.exportNamedDeclaration(
           t.tsInterfaceDeclaration(
             t.identifier(upperCase),
@@ -46,6 +53,7 @@ function handleObjectExpression(node) {
             t.tsInterfaceBody(nArr)
           )
         );
+
         if (content.has(upperCase)) {
           content.set(upperCase, content.get(upperCase));
         } else {
@@ -69,11 +77,9 @@ function handleArrayExpression(name, node: t.ArrayExpression) {
   const nameMap = new Map<string, t.TSType>();
   node.elements.forEach((item) => {
     if (t.isLiteral(item)) {
-      // set.add(baseTypeToTs(item.type));
       nameMap.set(item.type, baseTypeToTs(item.type));
     } else if (t.isObjectExpression(item)) {
       const tsName = toUpperCase(name);
-      // set.add(t.tsTypeReference(t.identifier(tsName)));
       nameMap.set(tsName, t.tsTypeReference(t.identifier(tsName)));
       const arr = handleObjectExpression(item);
       let tNode = t.exportNamedDeclaration(
@@ -114,22 +120,24 @@ function handleArrayExpression(name, node: t.ArrayExpression) {
         content.set(tsName, tNode);
       }
     } else if (t.isArrayExpression(item)) {
+      const arrayNode = handleArrayExpression(name, item);
+      nameMap.set("ArrayExpression", arrayNode);
     }
   });
   let typeArr = [];
+
   nameMap.forEach((item) => {
     typeArr.push(item);
   });
   if (typeArr.length === 0) {
     typeArr.push(t.tsUnknownKeyword());
   }
-  return t.tsPropertySignature(
-    t.identifier(name),
-    t.tsTypeAnnotation(
-      t.tsArrayType(typeArr.length > 1 ? t.tsUnionType(typeArr) : typeArr[0])
-    )
+  return t.tsArrayType(
+    typeArr.length > 1 ? t.tsUnionType(typeArr) : typeArr[0]
   );
 }
+
+// type a = string[][][]
 
 /**
  * 添加注释 当前行 或者上一行有注释就加入

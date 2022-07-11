@@ -77,15 +77,56 @@ describe("empty json", () => {
   });
 });
 
+// 多个同名对象嵌套，加上父级的name
+const moreObject = `{
+  data: {
+    status: 200,
+    data:{
+      name:1,
+      data:{
+        name:'123'
+      }
+    }
+  }
+}`;
+describe("moreObject json", () => {
+  let res = `"export namespace namespace {
+  export interface DataDataData {
+    name: string;
+  }
+  export interface DataData {
+    name: number;
+    data: DataDataData;
+  }
+  export interface Data {
+    status: number;
+    data: DataData;
+  }
+  export interface RootObject {
+    data: Data;
+  }
+}"`;
+  it("expect", () => {
+    expect(jsonToTs(moreObject)).toMatchInlineSnapshot(res);
+  });
+});
+
+// 多数组深套
 const moreArray = `{
-  arr: [['test']]
+  data: [
+    [
+    [ {data:'1111'}]
+    ]
+  ]
 }`;
 console.log(jsonToTs(moreArray));
 describe("moreArray json", () => {
   let res = `"export namespace namespace {
+  export interface Data {
+    data: string;
+  }
   export interface RootObject {
-    name: string;
-    arr: unknown[];
+    data: Data[][][];
   }
 }"`;
   it("expect", () => {
