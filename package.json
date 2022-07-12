@@ -2,7 +2,7 @@
   "name": "@jamielhf/jsontots",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/index.cjs",
+  "main": "index.js",
   "module": "./dist/index.mjs",
   "types": "types/index.d.ts",
   "keywords": [
