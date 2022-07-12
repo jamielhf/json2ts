@@ -36,7 +36,7 @@ function handleObjectExpression(node, parentNodeName: string = "") {
           t.tsTypeAnnotation(arrayNode)
         );
       } else if (t.isObjectExpression(itemNode.value)) {
-        console.log("nodeName", nodeName);
+        // console.log("nodeName", nodeName);
         const upperCase = parentNodeName + toUpperCase(nodeName);
         tsNode = t.tsPropertySignature(
           t.identifier(nodeName),

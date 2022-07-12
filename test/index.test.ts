@@ -119,7 +119,7 @@ const moreArray = `{
     ]
   ]
 }`;
-console.log(jsonToTs(moreArray));
+// console.log(jsonToTs(moreArray));
 describe("moreArray json", () => {
   let res = `"export namespace namespace {
   export interface Data {
@@ -133,3 +133,19 @@ describe("moreArray json", () => {
     expect(jsonToTs(moreArray)).toMatchInlineSnapshot(res);
   });
 });
+
+const json = `{
+  Button: {
+    description: "按钮组件",
+    props: [
+      {
+        name: "htmlType",
+        type: '"button" | "submit" | "reset"',
+        default: "",
+        description: "Button 类型",
+        required: false,
+      },
+    ],
+  },
+}`;
+console.log(jsonToTs(json));
