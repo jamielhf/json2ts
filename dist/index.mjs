@@ -111,7 +111,6 @@ function handleObjectExpression(node) {
         var arrayNode = handleArrayExpression(nodeName, itemNode.value);
         tsNode = t.tsPropertySignature(t.identifier(nodeName), t.tsTypeAnnotation(arrayNode));
       } else if (t.isObjectExpression(itemNode.value)) {
-        console.log("nodeName", nodeName);
         var upperCase = parentNodeName + toUpperCase(nodeName);
         tsNode = t.tsPropertySignature(t.identifier(nodeName), t.tsTypeAnnotation(t.tsTypeReference(t.identifier(upperCase))));
         var nArr = handleObjectExpression(itemNode.value, upperCase);
