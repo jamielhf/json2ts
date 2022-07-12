@@ -1,8 +1,8 @@
 {
   "name": "@jamielhf/jsontots",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "types/index.d.ts",
   "keywords": [
@@ -42,6 +42,7 @@
     "@babel/preset-env": "^7.18.2",
     "@babel/traverse": "^7.18.5",
     "@babel/types": "^7.18.4",
+    "@rollup/plugin-replace": "^4.0.0",
     "esbuild": "^0.14.27",
     "eslint": "^8.18.0",
     "rollup": "^2.70.1",

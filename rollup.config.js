@@ -1,4 +1,5 @@
 import clear from "rollup-plugin-clear";
+import replace from "@rollup/plugin-replace";
 import esbuild from "rollup-plugin-esbuild";
 import { getBabelOutputPlugin } from "@rollup/plugin-babel";
 import dts from "rollup-plugin-dts";
@@ -55,6 +56,9 @@ module.exports = [
         targets: ["./dist"],
       }),
       esbuildPlugin,
+      replace({
+        "process.env.NODE_ENV": JSON.stringify("production"),
+      }),
     ],
   },
   {

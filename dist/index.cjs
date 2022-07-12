@@ -154,7 +154,6 @@ function handleObjectExpression(node) {
         var arrayNode = handleArrayExpression(nodeName, itemNode.value);
         tsNode = t__namespace.tsPropertySignature(t__namespace.identifier(nodeName), t__namespace.tsTypeAnnotation(arrayNode));
       } else if (t__namespace.isObjectExpression(itemNode.value)) {
-        console.log("nodeName", nodeName);
         var upperCase = parentNodeName + toUpperCase(nodeName);
         tsNode = t__namespace.tsPropertySignature(t__namespace.identifier(nodeName), t__namespace.tsTypeAnnotation(t__namespace.tsTypeReference(t__namespace.identifier(upperCase))));
         var nArr = handleObjectExpression(itemNode.value, upperCase);
