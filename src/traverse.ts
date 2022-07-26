@@ -38,6 +38,7 @@ function handleObjectExpression(node, parentNodeName: string = "") {
       } else if (t.isObjectExpression(itemNode.value)) {
         // console.log("nodeName", nodeName);
         const upperCase = parentNodeName + toUpperCase(nodeName);
+        console.log("upperCase", parentNodeName, upperCase);
         tsNode = t.tsPropertySignature(
           t.identifier(nodeName),
           t.tsTypeAnnotation(t.tsTypeReference(t.identifier(upperCase)))
@@ -80,8 +81,9 @@ function handleArrayExpression(name, node: t.ArrayExpression) {
       nameMap.set(item.type, baseTypeToTs(item.type));
     } else if (t.isObjectExpression(item)) {
       const tsName = toUpperCase(name);
+
       nameMap.set(tsName, t.tsTypeReference(t.identifier(tsName)));
-      const arr = handleObjectExpression(item);
+      const arr = handleObjectExpression(item, tsName);
       let tNode = t.exportNamedDeclaration(
         t.tsInterfaceDeclaration(
           t.identifier(tsName),
