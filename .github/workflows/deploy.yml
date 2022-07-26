@@ -4,8 +4,8 @@ name: buildLibrary
 # 下文的意思是：当监听到tag的变更时，执行脚本，比如我们在 github 内新建一个tag
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - master
 
 # jobs 也就是任务的意思
 jobs:
