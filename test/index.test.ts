@@ -26,7 +26,7 @@ describe("array json", () => {
   let res = `"export namespace namespace {
   export interface Arr {
     /**  测试 */
-    a: string;
+    a1: string;
     b?: string;
   }
   export interface RootObject {
